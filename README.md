@@ -40,6 +40,7 @@ Let's move on to the run configuration.
 | StateTest::testInTransaction |  1m20.595317s  |  53.196909s   |  50.214342s   |  41.509341s  |  26.363875s  |  25.959117s   |  25.930789s  |
 | CartTest::testPay            |   1m7.062113s   |  54.811465s   |  59.989745s   |  30.714206s  |  35.002056s  |  35.071199s   |  35.191258s | 
 
+The pivot table was generated with the [junit-reporter](https://github.com/bavix/junit-reporter)
 
 ---
 Supported by

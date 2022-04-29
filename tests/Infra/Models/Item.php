@@ -33,7 +33,7 @@ class Item extends Model implements Product
         return $result && !$customer->paid($this);
     }
 
-    public function getAmountProduct(Customer $customer)
+    public function getAmountProduct(Customer $customer): int|string
     {
         return $this->price;
     }

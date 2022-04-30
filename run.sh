@@ -1,6 +1,14 @@
 #!/bin/sh
 
 rm -rf vendor/ composer.lock
+cp composer_6.x.json composer.json
+composer install
+composer unit
+mv build/junit{,-6.2.4}.xml
+
+sleep 30
+
+rm -rf vendor/ composer.lock
 cp composer_7.x.json composer.json
 composer install
 composer unit

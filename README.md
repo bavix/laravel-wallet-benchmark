@@ -28,18 +28,18 @@ Let's move on to the run configuration.
 * **Database**: MySQL 8.0.27 (arm64 in Docker)
 * **PHP**: 8.1.5 (arm64 native), pcov 1.0.10
 
-| Name                            | 7.3.3        | 8.4.1      | 9.0.0-RC2  | 
-|---------------------------------|--------------|------------|------------|
-| SoloTest::testTransfer          | 7.377002s    | 6.191329s  | 6.193337s  |   
-| CartTest::testPay               | 1m2.617071s  | 17.704644s | 17.844328s | 
-| SoloTest::testGetBalance        | 7.040529s    | 7.251735s  | 7.233609s  |
-| SoloTest::testDeposit           | 3.773541s    | 3.667777s  | 3.664601s  |
-| SoloTest::testEagerLoading      | 3m44.977786s | 56.706156s | 56.982445s |
-| SoloTest::testForceWithdraw     | 3.744525s    | 3.645576s  | 3.661481s  |
-| StateTest::testInTransaction    | 20.0454s     | 20.319753s | 20.186998s |
-| CartTest::testEagerLoaderPay    | 50.897568s   | 1.127517s  | 1.058022s  |
-| CartTest::testPayFree           | 59.590283s   | 16.438188s | 16.435098s |
-| CartTest::testPayOneItemXPieces | 25.354979s   | 2.030466s  | 2.107291s  |
+| Name                            | 6.2.4        | 7.3.3        | 8.4.1      | 9.0.0-RC2  |
+|---------------------------------|--------------|--------------|------------|------------|
+| CartTest::testPay               | 1m41.859842s | 1m1.982956s  | 17.412438s | 17.094677s |
+| CartTest::testPayFree           | 1m42.212257s | 58.135556s   | 14.877622s | 15.059677s |
+| CartTest::testPayOneItemXPieces | 50.633988s   | 24.711588s   | 2.007424s  | 2.096698s  |
+| SoloTest::testGetBalance        | 6.807218s    | 6.58099s     | 7.058258s  | 7.06993s   |
+| SoloTest::testEagerLoading      | 52.66466s    | 3m40.334665s | 53.098282s | 52.838576s |
+| SoloTest::testTransfer          | 7.623928s    | 6.789149s    | 5.588853s  | 5.583658s  |
+| StateTest::testInTransaction    | 44.217149s   | 18.415206s   | 18.405966s | 18.401289s |
+| CartTest::testEagerLoaderPay    | 58.287831s   | 49.51261s    | 1.075221s  | 984.086ms  |
+| SoloTest::testDeposit           | 3.617338s    | 3.48139s     | 3.389587s  | 3.414524s  |
+| SoloTest::testForceWithdraw     | 3.595859s    | 3.48732s     | 3.420613s  | 3.384791s  |
 
 The pivot table was generated with the [junit-reporter](https://github.com/bavix/junit-reporter)
 

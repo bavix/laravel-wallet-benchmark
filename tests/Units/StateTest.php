@@ -43,8 +43,6 @@ class StateTest extends TestCase
             }
 
             app(DbService::class)->transaction($callback);
-        } else {
-            self::markTestSkipped();
         }
 
         self::assertSame(256, (int) $buyer->balance);

@@ -9,9 +9,7 @@ laravel-wallet-benchmark - A special project for testing performance from versio
 * **Vendor**: bavix
 * **Package**: laravel-wallet-benchmark
 * **Version**: [![Latest Stable Version](https://poser.pugx.org/bavix/laravel-wallet-benchmark/v/stable)](https://packagist.org/packages/bavix/laravel-wallet-benchmark)
-* **PHP Version**: 8.0+ 
-* **Laravel Version**: `6.x`, `7.x`, `8.x`
-* **[Composer](https://getcomposer.org/):** `composer require bavix/laravel-wallet-benchmark`
+* **PHP Version**: 8.0+
 
 ---
 
@@ -28,17 +26,20 @@ Let's move on to the run configuration.
 * **Lock Provider**: redis
 * **Cache Provider**: redis
 * **Database**: MySQL 8.0.27 (arm64 in Docker)
-* **PHP**: 8.1.0 (arm64 native), pcov 1.0.10
+* **PHP**: 8.1.5 (arm64 native), pcov 1.0.10
 
-| Name | 6.0.4 | 6.1.0 | 6.2.4 | 7.0.0 | 7.1.0 | 7.2.0 | 7.3.0-beta1 |
-| --- | --- | --- | --- | --- | --- | --- |-------------|
-| StateTest::testInTransaction   | 32.14786s    | 32.303855s |  33.251291s |  31.092385s |  17.634431s |  17.448182s | 17.819701s  |
-| CartTest::testPay              | 29.691725s   | 29.12693s  |  48.218735s |  22.838637s |  26.92567s  |  26.737613s | 27.219126s  |
-| CartTest::testPayFree          | 36.64304s    | 36.592076s |  53.359392s |  21.662551s |  25.108906s |  25.316395s | 25.363622s  |
-| SoloTest::testGetBalance       | 5.253109s    | 5.243846s  |  5.609912s  |  5.486865s  |  5.523286s  |  5.56334s   | 5.968448s   |
-| SoloTest::testDeposit          | 2.513897s    | 2.521361s  |  2.68477s   |  2.546184s  |  2.688301s  |  2.616405s  | 2.757482s   |
-| SoloTest::testForceWithdraw    | 2.527576s    | 2.532933s  |  2.675782s  |  2.552193s  |  2.620756s  |  2.617255s  | 2.730251s   |
-| SoloTest::testTransfer         | 4.992439s    | 4.860993s  |  5.081162s  |  4.682521s  |  4.726544s  |  4.768472s  | 4.944284s   |
+| Name                            | 6.2.4        | 7.3.3        | 8.4.1      | 9.0.0-RC2  |
+|---------------------------------|--------------|--------------|------------|------------|
+| CartTest::testPay               | 1m41.859842s | 1m1.982956s  | 17.412438s | 17.094677s |
+| CartTest::testPayFree           | 1m42.212257s | 58.135556s   | 14.877622s | 15.059677s |
+| CartTest::testPayOneItemXPieces | 50.633988s   | 24.711588s   | 2.007424s  | 2.096698s  |
+| SoloTest::testGetBalance        | 6.807218s    | 6.58099s     | 7.058258s  | 7.06993s   |
+| SoloTest::testEagerLoading      | 52.66466s    | 3m40.334665s | 53.098282s | 52.838576s |
+| SoloTest::testTransfer          | 7.623928s    | 6.789149s    | 5.588853s  | 5.583658s  |
+| StateTest::testInTransaction    | 44.217149s   | 18.415206s   | 18.405966s | 18.401289s |
+| CartTest::testEagerLoaderPay    | 58.287831s   | 49.51261s    | 1.075221s  | 984.086ms  |
+| SoloTest::testDeposit           | 3.617338s    | 3.48139s     | 3.389587s  | 3.414524s  |
+| SoloTest::testForceWithdraw     | 3.595859s    | 3.48732s     | 3.420613s  | 3.384791s  |
 
 The pivot table was generated with the [junit-reporter](https://github.com/bavix/junit-reporter)
 

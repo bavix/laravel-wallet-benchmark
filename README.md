@@ -28,7 +28,7 @@ Let's move on to the run configuration.
 * **Database**: MySQL 8.0.27 (arm64 in Docker)
 * **PHP**: 8.1.5 (arm64 native), pcov 1.0.10
 
-| Name                            | 6.2.4        | 7.3.3        | 8.4.1      | 9.0.0-RC2  |
+| Name                            | 6.2.4        | 7.3.3        | 8.4.1      | 9.0.0      |
 |---------------------------------|--------------|--------------|------------|------------|
 | CartTest::testPay               | 1m41.859842s | 1m1.982956s  | 17.412438s | 17.094677s |
 | CartTest::testPayFree           | 1m42.212257s | 58.135556s   | 14.877622s | 15.059677s |

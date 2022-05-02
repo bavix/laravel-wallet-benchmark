@@ -175,7 +175,7 @@ jobs:
       - name: Display junit
         id: artifacts-display
         run: |
-          OUTPUT=$(~/go/bin/junit-reporter --path . --group)
+          OUTPUT=$(~/go/bin/junit-reporter --path . --group --ticks)
           OUTPUT="${OUTPUT//'%'/'%25'}"
           OUTPUT="${OUTPUT//$'\n'/'%0A'}"
           OUTPUT="${OUTPUT//$'\r'/'%0D'}"

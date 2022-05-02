@@ -28,4 +28,4 @@ rm -rf vendor/ composer.lock
 cp composer_9.x.json composer.json
 composer install
 composer unit
-mv build/junit{,-9.0.0-RC2}.xml
+mv build/junit{,-9.0.0}.xml

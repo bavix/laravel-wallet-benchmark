@@ -26,7 +26,7 @@ Let's move on to the run configuration.
 * **Lock Provider**: redis
 * **Cache Provider**: redis
 * **Database**: MySQL 8.0.27 (arm64 in Docker)
-* **PHP**: 8.1.5 (arm64 native), pcov 1.0.10
+* **PHP**: 8.1.5 (arm64 native), pcov 1.0.11
 
 | Name                            | 6.2.4        | 7.3.3        | 8.4.1      | 9.0.0      |
 |---------------------------------|--------------|--------------|------------|------------|

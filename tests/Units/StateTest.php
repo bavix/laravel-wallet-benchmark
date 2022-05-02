@@ -18,9 +18,11 @@ use Bavix\WalletBench\Test\Infra\TestCase;
 /**
  * @internal
  */
-class StateTest extends TestCase
+final class StateTest extends TestCase
 {
-    /** @dataProvider x25 */
+    /**
+     * @dataProvider x25
+     */
     public function testInTransaction(): void
     {
         /** @var Buyer $buyer */

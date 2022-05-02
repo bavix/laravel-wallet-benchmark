@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Bavix\WalletBench\Test\Units;
 
 use Bavix\Wallet\Interfaces\Product;
-use Bavix\Wallet\Interfaces\ProductInterface;
 use Bavix\Wallet\Objects\Cart;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Factories\ItemFactory;
@@ -16,9 +15,11 @@ use Bavix\WalletBench\Test\Infra\TestCase;
 /**
  * @internal
  */
-class CartTest extends TestCase
+final class CartTest extends TestCase
 {
-    /** @dataProvider x25 */
+    /**
+     * @dataProvider x25
+     */
     public function testPay(): void
     {
         /**
@@ -26,7 +27,9 @@ class CartTest extends TestCase
          * @var Item[] $products
          */
         $buyer = BuyerFactory::new()->create();
-        $products = ItemFactory::times(50)->create(['quantity' => 1]);
+        $products = ItemFactory::times(50)->create([
+            'quantity' => 1,
+        ]);
 
         if (method_exists(app(Cart::class), 'withItems')) {
             $transfers = $buyer->wallet->forcePayCart(app(Cart::class)->withItems($products));
@@ -42,7 +45,9 @@ class CartTest extends TestCase
         }
     }
 
-    /** @dataProvider x25 */
+    /**
+     * @dataProvider x25
+     */
     public function testPayFree(): void
     {
         /**
@@ -50,7 +55,9 @@ class CartTest extends TestCase
          * @var Item[] $products
          */
         $buyer = BuyerFactory::new()->create();
-        $products = ItemFactory::times(50)->create(['quantity' => 1]);
+        $products = ItemFactory::times(50)->create([
+            'quantity' => 1,
+        ]);
 
         if (method_exists(app(Cart::class), 'withItems')) {
             $transfers = $buyer->wallet->payFreeCart(app(Cart::class)->withItems($products));
@@ -66,24 +73,24 @@ class CartTest extends TestCase
         }
     }
 
-    /** @dataProvider x25 */
+    /**
+     * @dataProvider x25
+     */
     public function testPayOneItemXPieces(): void
     {
-        /**
-         * @var Buyer  $buyer
-         * @var Item[] $products
-         */
         $quantity = 30;
         $buyer = BuyerFactory::new()->create();
-        $product = ItemFactory::new()->create(['quantity' => $quantity]);
+        $product = ItemFactory::new()->create([
+            'quantity' => $quantity,
+        ]);
 
         $cart = app(Cart::class);
         if (method_exists($cart, 'withItems')) {
-            for ($i = 0; $i < $quantity; $i++) {
+            for ($i = 0; $i < $quantity; ++$i) {
                 $cart = $cart->withItem($product);
             }
         } else {
-            for ($i = 0; $i < $quantity; $i++) {
+            for ($i = 0; $i < $quantity; ++$i) {
                 $cart->addItem($product);
             }
         }
@@ -97,7 +104,6 @@ class CartTest extends TestCase
         }
     }
 
-
     public function testEagerLoaderPay(): void
     {
         /**
@@ -105,7 +111,10 @@ class CartTest extends TestCase
          * @var Item[] $products
          */
         $buyer = BuyerFactory::new()->create();
-        $products = ItemFactory::times(50)->create(['quantity' => 5, 'price' => 1]);
+        $products = ItemFactory::times(50)->create([
+            'quantity' => 5,
+            'price' => 1,
+        ]);
 
         $productIds = [];
         foreach ($products as $product) {

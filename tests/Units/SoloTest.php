@@ -11,9 +11,11 @@ use Bavix\WalletBench\Test\Infra\TestCase;
 /**
  * @internal
  */
-class SoloTest extends TestCase
+final class SoloTest extends TestCase
 {
-    /** @dataProvider x300 */
+    /**
+     * @dataProvider x300
+     */
     public function testGetBalance(): void
     {
         /** @var Buyer $buyer */
@@ -21,10 +23,11 @@ class SoloTest extends TestCase
         self::assertSame(0, (int) $buyer->wallet->balance);
     }
 
-    /** @dataProvider x25 */
+    /**
+     * @dataProvider x25
+     */
     public function testEagerLoading(): void
     {
-        /** @var Buyer[] $buyers */
         $ids = [];
         $buyers = BuyerFactory::times(100)->create();
         foreach ($buyers as $buyer) {
@@ -35,14 +38,17 @@ class SoloTest extends TestCase
         /** @var Buyer[] $buyers */
         $buyers = Buyer::with('wallet')
             ->whereKey($ids)
-            ->get();
+            ->get()
+        ;
 
         foreach ($buyers as $buyer) {
             self::assertSame(100, (int) $buyer->wallet->balance);
         }
     }
 
-    /** @dataProvider x100 */
+    /**
+     * @dataProvider x100
+     */
     public function testDeposit(): void
     {
         /** @var Buyer $buyer */
@@ -55,7 +61,9 @@ class SoloTest extends TestCase
         self::assertTrue($buyer->is($transaction->payable));
     }
 
-    /** @dataProvider x100 */
+    /**
+     * @dataProvider x100
+     */
     public function testForceWithdraw(): void
     {
         /** @var Buyer $buyer */
@@ -68,7 +76,9 @@ class SoloTest extends TestCase
         self::assertTrue($buyer->is($transaction->payable));
     }
 
-    /** @dataProvider x100 */
+    /**
+     * @dataProvider x100
+     */
     public function testTransfer(): void
     {
         /**

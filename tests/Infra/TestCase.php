@@ -14,7 +14,7 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 /**
  * @internal
  */
-class TestCase extends OrchestraTestCase
+abstract class TestCase extends OrchestraTestCase
 {
     use RefreshDatabase;
 
@@ -40,17 +40,26 @@ class TestCase extends OrchestraTestCase
         yield from $this->iterate(300);
     }
 
-    /** @param Application $app */
+    /**
+     * @param Application $app
+     */
     protected function getPackageProviders($app): array
     {
         return [WalletServiceProvider::class, TestServiceProvider::class];
     }
 
-    /** @param Application $app */
+    /**
+     * @param Application $app
+     */
     protected function getEnvironmentSetUp($app): void
     {
         /** @var Repository $config */
         $config = $app['config'];
+
+        $mysql = $config->get('database.connections.mysql');
+        $config->set('database.connections.mariadb', array_merge($mysql, [
+            'port' => 3307,
+        ]));
 
         $config->set('wallet.cache.enabled', true); // for 6.x
         $config->set('wallet.cache.driver', $config->get('cache.driver'));

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+export CACHE_DRIVER=redis
 export DB_CONNECTION=mysql
 export DB_DATABASE=wallets
 export DB_PASSWORD=root

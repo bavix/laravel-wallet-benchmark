@@ -25,16 +25,16 @@ Let's move on to the run configuration.
 
 |          Name          |    6.x.x    |    7.x.x    |    8.x.x    |    9.x.x    |
 |------------------------|-------------|-------------|-------------|-------------|
-| Cart:EagerLoaderPay    | 54.629752s  | 49.613899s  | 1.618865s   | 1.115148s   |
-| Cart:Pay               | 3.71251716s | 2.479592s   | 1.10196812s | 787.97172ms |
-| Cart:PayFree           | 3.91352972s | 2.35673068s | 1.1963396s  | 767.4488ms  |
-| Cart:PayOneItemXPieces | 1.90393404s | 1.0040618s  | 300.46176ms | 81.83716ms  |
-| Solo:Deposit           | 36.41504ms  | 45.27616ms  | 44.30149ms  | 39.76877ms  |
-| Solo:EagerLoading      | 2.18375652s | 8.96233848s | 2.95431568s | 2.735177s   |
-| Solo:ForceWithdraw     | 35.92262ms  | 45.36723ms  | 43.74567ms  | 40.13479ms  |
-| Solo:GetBalance        | 22.191416ms | 22.820876ms | 23.800013ms | 24.496166ms |
-| Solo:Transfer          | 75.44347ms  | 93.17037ms  | 91.80417ms  | 75.48488ms  |
-| State:InTransaction    | 1.6373984s  | 1.18124788s | 1.16913928s | 1.1686232s  |
+| Cart:EagerLoaderPay    | 58.949697s  | 49.58581s   | 1.466579s   | 1.032154s   |
+| Cart:Pay               | 4.08699296s | 2.50341516s | 1.03995896s | 721.67092ms |
+| Cart:PayFree           | 4.15599512s | 2.36554972s | 1.01579044s | 631.9784ms  |
+| Cart:PayOneItemXPieces | 2.0559186s  | 1.01231272s | 252.7258ms  | 83.73056ms  |
+| Solo:Deposit           | 38.18582ms  | 36.67559ms  | 37.35399ms  | 35.68319ms  |
+| Solo:EagerLoading      | 2.13623892s | 8.82851804s | 2.30754092s | 2.14806152s |
+| Solo:ForceWithdraw     | 38.39115ms  | 36.87102ms  | 37.52448ms  | 35.47786ms  |
+| Solo:GetBalance        | 23.543576ms | 24.199633ms | 23.38236ms  | 23.888203ms |
+| Solo:Transfer          | 78.80488ms  | 72.01921ms  | 72.81176ms  | 59.42262ms  |
+| State:InTransaction    | 1.82724428s | 766.2884ms  | 771.08604ms | 767.08376ms |
 
 The pivot table was generated with the [junit-reporter](https://github.com/bavix/junit-reporter)
 

@@ -28,18 +28,18 @@ Let's move on to the run configuration.
 * **Database**: MySQL 8.0.27 (arm64 in Docker)
 * **PHP**: 8.1.5 (arm64 native), pcov 1.0.11
 
-| Name                            | 6.2.4        | 7.3.3        | 8.4.1      | 9.0.0      |
-|---------------------------------|--------------|--------------|------------|------------|
-| CartTest::testPay               | 1m41.859842s | 1m1.982956s  | 17.412438s | 17.094677s |
-| CartTest::testPayFree           | 1m42.212257s | 58.135556s   | 14.877622s | 15.059677s |
-| CartTest::testPayOneItemXPieces | 50.633988s   | 24.711588s   | 2.007424s  | 2.096698s  |
-| SoloTest::testGetBalance        | 6.807218s    | 6.58099s     | 7.058258s  | 7.06993s   |
-| SoloTest::testEagerLoading      | 52.66466s    | 3m40.334665s | 53.098282s | 52.838576s |
-| SoloTest::testTransfer          | 7.623928s    | 6.789149s    | 5.588853s  | 5.583658s  |
-| StateTest::testInTransaction    | 44.217149s   | 18.415206s   | 18.405966s | 18.401289s |
-| CartTest::testEagerLoaderPay    | 58.287831s   | 49.51261s    | 1.075221s  | 984.086ms  |
-| SoloTest::testDeposit           | 3.617338s    | 3.48139s     | 3.389587s  | 3.414524s  |
-| SoloTest::testForceWithdraw     | 3.595859s    | 3.48732s     | 3.420613s  | 3.384791s  |
+|          Name          |    6.x.x    |    7.x.x    |    8.x.x    |    9.x.x    |
+|------------------------|-------------|-------------|-------------|-------------|
+| Cart:EagerLoaderPay    | 54.629752s  | 49.613899s  | 1.618865s   | 1.115148s   |
+| Cart:Pay               | 3.71251716s | 2.479592s   | 1.10196812s | 787.97172ms |
+| Cart:PayFree           | 3.91352972s | 2.35673068s | 1.1963396s  | 767.4488ms  |
+| Cart:PayOneItemXPieces | 1.90393404s | 1.0040618s  | 300.46176ms | 81.83716ms  |
+| Solo:Deposit           | 36.41504ms  | 45.27616ms  | 44.30149ms  | 39.76877ms  |
+| Solo:EagerLoading      | 2.18375652s | 8.96233848s | 2.95431568s | 2.735177s   |
+| Solo:ForceWithdraw     | 35.92262ms  | 45.36723ms  | 43.74567ms  | 40.13479ms  |
+| Solo:GetBalance        | 22.191416ms | 22.820876ms | 23.800013ms | 24.496166ms |
+| Solo:Transfer          | 75.44347ms  | 93.17037ms  | 91.80417ms  | 75.48488ms  |
+| State:InTransaction    | 1.6373984s  | 1.18124788s | 1.16913928s | 1.1686232s  |
 
 The pivot table was generated with the [junit-reporter](https://github.com/bavix/junit-reporter)
 

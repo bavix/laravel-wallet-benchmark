@@ -125,11 +125,7 @@ jobs:
       - name: Run test suite
         id: unit-run
         run: |
-          if [[ $DB_CONNECTION == "mariadb" ]]; then
-            composer unit
-          else
-            composer parabench
-          fi
+          composer unit
         env:
           CACHE_DRIVER: ${{ matrix.caches }}
           DB_CONNECTION: ${{ matrix.databases }}

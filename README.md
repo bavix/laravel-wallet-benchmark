@@ -1,14 +1,9 @@
-[![phpunits](https://github.com/bavix/laravel-wallet-benchmark/actions/workflows/phpunits.yaml/badge.svg)](https://github.com/bavix/laravel-wallet-benchmark/actions/workflows/phpunits.yaml)
-[![Latest Stable Version](https://poser.pugx.org/bavix/laravel-wallet-benchmark/v/stable)](https://packagist.org/packages/bavix/laravel-wallet-benchmark)
-[![Latest Unstable Version](https://poser.pugx.org/bavix/laravel-wallet-benchmark/v/unstable)](https://packagist.org/packages/bavix/laravel-wallet-benchmark)
-[![License](https://poser.pugx.org/bavix/laravel-wallet-benchmark/license)](https://packagist.org/packages/bavix/laravel-wallet-benchmark)
-[![composer.lock](https://poser.pugx.org/bavix/laravel-wallet-benchmark/composerlock)](https://packagist.org/packages/bavix/laravel-wallet-benchmark)
-
 laravel-wallet-benchmark - A special project for testing performance from version to version of the laravel-wallet package.
 
+[![phpunits](https://github.com/bavix/laravel-wallet-benchmark/actions/workflows/phpunits.yaml/badge.svg)](https://github.com/bavix/laravel-wallet-benchmark/actions/workflows/phpunits.yaml)
+
 * **Vendor**: bavix
-* **Package**: laravel-wallet-benchmark
-* **Version**: [![Latest Stable Version](https://poser.pugx.org/bavix/laravel-wallet-benchmark/v/stable)](https://packagist.org/packages/bavix/laravel-wallet-benchmark)
+* **Project**: laravel-wallet-benchmark
 * **PHP Version**: 8.0+
 
 ---

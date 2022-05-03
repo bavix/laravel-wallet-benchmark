@@ -6,18 +6,6 @@ export DB_DATABASE=wallets
 export DB_PASSWORD=root
 
 rm -rf vendor/ composer.lock
-cp composer_6.x.json composer.json
-composer install
-composer unit
-if [[ $? -ne 0 ]]; then
-  exit 6
-fi
-
-mv build/junit{,-6.x}.xml
-
-sleep 30
-
-rm -rf vendor/ composer.lock
 cp composer_7.x.json composer.json
 composer install
 composer unit

@@ -8,6 +8,7 @@ use Bavix\Wallet\WalletServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
@@ -22,6 +23,7 @@ abstract class TestCase extends OrchestraTestCase
     {
         parent::setUp();
         DB::transactionLevel() && DB::rollBack();
+        Cache::flush();
     }
 
     // benchmark

@@ -6,6 +6,7 @@ namespace Bavix\WalletBench\Test\Units;
 
 use Bavix\Wallet\Internal\Service\DatabaseServiceInterface;
 use Bavix\Wallet\Services\BookkeeperServiceInterface;
+use Bavix\Wallet\Services\RegulatorService;
 use Bavix\Wallet\Services\RegulatorServiceInterface;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
@@ -38,6 +39,11 @@ final class StateTest extends TestCase
      */
     public function testTransactionRollback(): void
     {
+        // laravel-wallet <7.1
+        if (!class_exists(RegulatorService::class)) {
+            $this->markTestSkipped();
+        }
+
         /** @var Buyer $buyer */
         $buyer = BuyerFactory::new()->create();
         self::assertFalse($buyer->relationLoaded('wallet'));
@@ -76,6 +82,11 @@ final class StateTest extends TestCase
      */
     public function testRefreshInTransaction(): void
     {
+        // laravel-wallet <7.1
+        if (!class_exists(RegulatorService::class)) {
+            $this->markTestSkipped();
+        }
+
         /** @var Buyer $buyer */
         $buyer = BuyerFactory::new()->create();
         $buyer->deposit(10000);

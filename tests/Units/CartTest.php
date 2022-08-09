@@ -104,6 +104,9 @@ final class CartTest extends TestCase
         }
     }
 
+    /**
+     * @dataProvider x25
+     */
     public function testEagerLoaderPay(): void
     {
         /**

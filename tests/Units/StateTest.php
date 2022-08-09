@@ -6,7 +6,6 @@ namespace Bavix\WalletBench\Test\Units;
 
 use Bavix\Wallet\Internal\Service\DatabaseServiceInterface;
 use Bavix\Wallet\Services\BookkeeperServiceInterface;
-use Bavix\Wallet\Services\DbService;
 use Bavix\Wallet\Services\RegulatorService;
 use Bavix\Wallet\Services\RegulatorServiceInterface;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
@@ -23,14 +22,15 @@ final class StateTest extends TestCase
      */
     public function testInTransaction(): void
     {
+        // laravel-wallet <7.0
+        if (!class_exists(DatabaseServiceInterface::class)) {
+            $this->markTestSkipped();
+        }
+
         /** @var Buyer $buyer */
         $buyer = BuyerFactory::new()->create();
 
-        $db = class_exists(DbService::class)
-            ? app(DbService::class)
-            : app(DatabaseServiceInterface::class);
-
-        $db->transaction(static function () use ($buyer) {
+        app(DatabaseServiceInterface::class)->transaction(static function () use ($buyer) {
             for ($i = 0; $i < 256; ++$i) {
                 $buyer->wallet->depositFloat(0.01);
             }

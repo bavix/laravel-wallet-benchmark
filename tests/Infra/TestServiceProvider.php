@@ -10,6 +10,6 @@ final class TestServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->loadMigrationsFrom([dirname(__DIR__, 2).'/migrations']);
+        $this->loadMigrationsFrom([dirname(__DIR__, 2) . '/migrations']);
     }
 }

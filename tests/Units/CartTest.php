@@ -122,7 +122,7 @@ final class CartTest extends TestCase
         $productIds = [];
         foreach ($products as $product) {
             $productIds[] = $product->getKey();
-            self::assertSame(0, $product->balanceInt);
+            self::assertSame(0, (int) $product->balance);
         }
 
         /** @var Product[] $products */
@@ -140,7 +140,7 @@ final class CartTest extends TestCase
         }
 
         $transfers = $buyer->forcePayCart($cart);
-        self::assertSame((int) -$cart->getTotal($buyer), $buyer->balanceInt);
+        self::assertSame((int) -$cart->getTotal($buyer), (int) $buyer->balance);
         self::assertCount(250, $transfers);
     }
 }

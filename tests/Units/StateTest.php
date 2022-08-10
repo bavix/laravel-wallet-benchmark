@@ -7,8 +7,13 @@ namespace Bavix\WalletBench\Test\Units;
 use Bavix\Wallet\Internal\Service\DatabaseService;
 use Bavix\Wallet\Internal\Service\DatabaseServiceInterface;
 use Bavix\Wallet\Services\BookkeeperServiceInterface;
+use Bavix\Wallet\Internal\StorageInterface;
+use Bavix\Wallet\Internal\BookkeeperInterface;
+use Bavix\Wallet\Services\BookkeeperService;
+use Bavix\Wallet\Services\DbService;
 use Bavix\Wallet\Services\RegulatorService;
 use Bavix\Wallet\Services\RegulatorServiceInterface;
+use Bavix\Wallet\Services\StorageService;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
 use Bavix\WalletBench\Test\Infra\TestCase;
@@ -23,19 +28,30 @@ final class StateTest extends TestCase
      */
     public function testInTransaction(): void
     {
-        // laravel-wallet <7.0
-        if (!class_exists(DatabaseService::class)) {
-            $this->markTestSkipped();
-        }
-
         /** @var Buyer $buyer */
         $buyer = BuyerFactory::new()->create();
 
-        app(DatabaseServiceInterface::class)->transaction(static function () use ($buyer) {
+        $callback = static function () use ($buyer) {
             for ($i = 0; $i < 256; ++$i) {
                 $buyer->wallet->depositFloat(0.01);
             }
-        });
+        };
+
+        if (class_exists(DatabaseService::class)) {
+            app(DatabaseServiceInterface::class)->transaction($callback);
+        } elseif (class_exists(DbService::class)) {
+            if (class_exists(BookkeeperService::class)) {
+                app(BookkeeperInterface::class)->missing($buyer->wallet);
+            }
+
+            if (class_exists(StorageService::class)) {
+                app(StorageInterface::class)->flush();
+            }
+
+            app(DbService::class)->transaction($callback);
+        } else {
+            $this->markTestSkipped();
+        }
 
         self::assertSame(256, (int) $buyer->balance);
     }

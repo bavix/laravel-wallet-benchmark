@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bavix\WalletBench\Test\Units;
 
+use Bavix\Wallet\Internal\Service\DatabaseService;
 use Bavix\Wallet\Internal\Service\DatabaseServiceInterface;
 use Bavix\Wallet\Services\BookkeeperServiceInterface;
 use Bavix\Wallet\Services\RegulatorService;
@@ -22,6 +23,11 @@ final class StateTest extends TestCase
      */
     public function testInTransaction(): void
     {
+        // laravel-wallet <7.0
+        if (!class_exists(DatabaseService::class)) {
+            $this->markTestSkipped();
+        }
+
         /** @var Buyer $buyer */
         $buyer = BuyerFactory::new()->create();
 

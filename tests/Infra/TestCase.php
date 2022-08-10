@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Bavix\WalletBench\Test\Infra;
 
 use Bavix\Wallet\WalletServiceProvider;
+use Bavix\WalletVacuum\VacuumServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,7 +46,16 @@ abstract class TestCase extends OrchestraTestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [WalletServiceProvider::class, TestServiceProvider::class];
+        $results = [
+            WalletServiceProvider::class,
+        ];
+
+        // for 6.x
+        if (class_exists(VacuumServiceProvider::class)) {
+            $results[] = VacuumServiceProvider::class;
+        }
+
+        return array_merge($results, [TestServiceProvider::class]);
     }
 
     /**

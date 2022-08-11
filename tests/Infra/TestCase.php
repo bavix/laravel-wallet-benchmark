@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bavix\WalletBench\Test\Infra;
 
+use Bavix\Wallet\Interfaces\Storable;
+use Bavix\Wallet\Simple\Store;
 use Bavix\Wallet\WalletServiceProvider;
 use Bavix\WalletVacuum\VacuumServiceProvider;
 use Illuminate\Config\Repository;
@@ -23,6 +25,11 @@ abstract class TestCase extends OrchestraTestCase
     {
         parent::setUp();
         DB::transactionLevel() && DB::rollBack();
+
+        // for 5.x
+        if (class_exists(Store::class)) {
+            app(Storable::class)->fresh();
+        }
     }
 
     // benchmark

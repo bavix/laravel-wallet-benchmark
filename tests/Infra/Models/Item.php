@@ -22,7 +22,7 @@ class Item extends Model implements Product
 
     protected $fillable = ['name', 'quantity', 'price'];
 
-    public function canBuy(Customer $customer, int $quantity = 1, bool|null $force = false): bool
+    public function canBuy(Customer $customer, int $quantity = 1, ?bool $force = false): bool
     {
         $result = $this->quantity >= $quantity;
 
@@ -33,9 +33,9 @@ class Item extends Model implements Product
         return $result && !$customer->paid($this);
     }
 
-    public function getAmountProduct(Customer $customer): int|string
+    public function getAmountProduct(Customer $customer): string
     {
-        return $this->price;
+        return (string) $this->price;
     }
 
     public function getMetaProduct(): ?array

@@ -7,8 +7,13 @@ namespace Bavix\WalletBench\Test\Units;
 use Bavix\Wallet\Internal\Service\DatabaseService;
 use Bavix\Wallet\Internal\Service\DatabaseServiceInterface;
 use Bavix\Wallet\Services\BookkeeperServiceInterface;
+use Bavix\Wallet\Internal\StorageInterface;
+use Bavix\Wallet\Internal\BookkeeperInterface;
+use Bavix\Wallet\Services\BookkeeperService;
+use Bavix\Wallet\Services\DbService;
 use Bavix\Wallet\Services\RegulatorService;
 use Bavix\Wallet\Services\RegulatorServiceInterface;
+use Bavix\Wallet\Services\StorageService;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
 use Bavix\WalletBench\Test\Infra\TestCase;
@@ -23,19 +28,30 @@ final class StateTest extends TestCase
      */
     public function testInTransaction(): void
     {
-        // laravel-wallet <7.0
-        if (!class_exists(DatabaseService::class)) {
-            $this->markTestSkipped();
-        }
-
         /** @var Buyer $buyer */
         $buyer = BuyerFactory::new()->create();
 
-        app(DatabaseServiceInterface::class)->transaction(static function () use ($buyer) {
+        $callback = static function () use ($buyer) {
             for ($i = 0; $i < 256; ++$i) {
                 $buyer->wallet->depositFloat(0.01);
             }
-        });
+        };
+
+        if (class_exists(DatabaseService::class)) {
+            app(DatabaseServiceInterface::class)->transaction($callback);
+        } elseif (class_exists(DbService::class)) {
+            if (class_exists(BookkeeperService::class)) {
+                app(BookkeeperInterface::class)->missing($buyer->wallet);
+            }
+
+            if (class_exists(StorageService::class)) {
+                app(StorageInterface::class)->flush();
+            }
+
+            app(DbService::class)->transaction($callback);
+        } else {
+            $this->markTestSkipped();
+        }
 
         self::assertSame(256, (int) $buyer->balance);
     }
@@ -56,7 +72,7 @@ final class StateTest extends TestCase
         $wallet = $buyer->wallet;
 
         self::assertFalse($wallet->exists);
-        self::assertSame(0, $wallet->balanceInt);
+        self::assertSame(0, (int) $wallet->balance);
         self::assertTrue($wallet->exists);
 
         $bookkeeper = app(BookkeeperServiceInterface::class);
@@ -66,7 +82,7 @@ final class StateTest extends TestCase
         self::assertSame(0, (int) $regulator->diff($wallet));
         self::assertSame(1000, (int) $regulator->amount($wallet));
         self::assertSame(1000, (int) $bookkeeper->amount($wallet));
-        self::assertSame(1000, $wallet->balanceInt);
+        self::assertSame(1000, (int) $wallet->balance);
 
         app(DatabaseServiceInterface::class)->transaction(function () use ($wallet, $regulator, $bookkeeper) {
             $wallet->deposit(10000);
@@ -80,7 +96,7 @@ final class StateTest extends TestCase
         self::assertSame(0, (int) $regulator->diff($wallet));
         self::assertSame(1000, (int) $regulator->amount($wallet));
         self::assertSame(1000, (int) $bookkeeper->amount($wallet));
-        self::assertSame(1000, $wallet->balanceInt);
+        self::assertSame(1000, (int) $wallet->balance);
     }
 
     /**
@@ -101,38 +117,38 @@ final class StateTest extends TestCase
         $regulator = app(RegulatorServiceInterface::class);
 
         $bookkeeper->increase($buyer->wallet, 100);
-        self::assertSame(10100, $buyer->balanceInt);
+        self::assertSame(10100, (int) $buyer->balance);
 
         app(DatabaseServiceInterface::class)->transaction(function () use ($bookkeeper, $regulator, $buyer) {
             self::assertTrue($buyer->wallet->refreshBalance());
             self::assertSame(-100, (int) $regulator->diff($buyer->wallet));
             self::assertSame(10100, (int) $bookkeeper->amount($buyer->wallet));
-            self::assertSame(10000, $buyer->balanceInt); // bookkeeper.amount+regulator.diff
+            self::assertSame(10000, (int) $buyer->balance); // bookkeeper.amount+regulator.diff
 
             return false; // rollback. cancel refreshBalance
         });
 
         self::assertSame(0, (int) $regulator->diff($buyer->wallet));
         self::assertSame(10100, (int) $bookkeeper->amount($buyer->wallet));
-        self::assertSame(10100, $buyer->balanceInt);
+        self::assertSame(10100, (int) $buyer->balance);
 
         app(DatabaseServiceInterface::class)->transaction(function () use ($bookkeeper, $regulator, $buyer) {
             self::assertTrue($buyer->wallet->refreshBalance());
             self::assertSame(-100, (int) $regulator->diff($buyer->wallet));
             self::assertSame(10100, (int) $bookkeeper->amount($buyer->wallet));
-            self::assertSame(10000, $buyer->balanceInt); // bookkeeper.amount+regulator.diff
+            self::assertSame(10000, (int) $buyer->balance); // bookkeeper.amount+regulator.diff
 
             return []; // if count() === 0 then rollback. cancel refreshBalance
         });
 
         self::assertSame(0, (int) $regulator->diff($buyer->wallet));
         self::assertSame(10100, (int) $bookkeeper->amount($buyer->wallet));
-        self::assertSame(10100, $buyer->balanceInt);
+        self::assertSame(10100, (int) $buyer->balance);
 
         self::assertTrue($buyer->wallet->refreshBalance());
 
         self::assertSame(0, (int) $regulator->diff($buyer->wallet));
         self::assertSame(10000, (int) $bookkeeper->amount($buyer->wallet));
-        self::assertSame(10000, $buyer->balanceInt);
+        self::assertSame(10000, (int) $buyer->balance);
     }
 }

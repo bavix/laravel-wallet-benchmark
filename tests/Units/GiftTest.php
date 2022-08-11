@@ -31,15 +31,15 @@ final class GiftTest extends TestCase
             'quantity' => 1,
         ]);
 
-        self::assertSame(0, $first->balanceInt);
-        self::assertSame(0, $second->balanceInt);
+        self::assertSame(0, (int) $first->balance);
+        self::assertSame(0, (int) $second->balance);
 
         $first->deposit($product->getAmountProduct($first));
-        self::assertSame($first->balanceInt, $product->getAmountProduct($first));
+        self::assertSame((int) $first->balance, (int) $product->getAmountProduct($first));
 
         $transfer = $first->wallet->gift($second, $product);
-        self::assertSame(0, $first->balanceInt);
-        self::assertSame(0, $second->balanceInt);
+        self::assertSame(0, (int) $first->balance);
+        self::assertSame(0, (int) $second->balance);
         self::assertNull($first->paid($product, true));
         self::assertNotNull($second->paid($product, true));
         self::assertNull($second->wallet->paid($product));
@@ -62,22 +62,22 @@ final class GiftTest extends TestCase
             'quantity' => 1,
         ]);
 
-        self::assertSame($first->balanceInt, 0);
-        self::assertSame($second->balanceInt, 0);
+        self::assertSame(0, (int) $first->balance);
+        self::assertSame(0, (int) $second->balance);
 
         $first->deposit($product->getAmountProduct($first));
-        self::assertSame($first->balanceInt, $product->getAmountProduct($first));
+        self::assertSame((int) $product->getAmountProduct($first), (int) $first->balance);
 
         $transfer = $first->wallet->gift($second, $product);
-        self::assertSame($first->balanceInt, 0);
-        self::assertSame($second->balanceInt, 0);
+        self::assertSame(0, (int) $first->balance);
+        self::assertSame(0, (int) $second->balance);
         self::assertSame($transfer->status, Transfer::STATUS_GIFT);
 
         self::assertFalse($second->wallet->safeRefund($product));
         self::assertTrue($second->wallet->refundGift($product));
 
-        self::assertSame($first->balanceInt, $product->getAmountProduct($first));
-        self::assertSame($second->balanceInt, 0);
+        self::assertSame((int) $product->getAmountProduct($first), (int) $first->balance);
+        self::assertSame(0, (int) $second->balance);
 
         self::assertNull($second->wallet->safeGift($first, $product));
 
@@ -85,23 +85,23 @@ final class GiftTest extends TestCase
         self::assertNotNull($transfer);
         self::assertSame($transfer->status, Transfer::STATUS_GIFT);
 
-        self::assertSame($second->balanceInt, -$product->getAmountProduct($second));
+        self::assertSame((int) $second->balance, (int) -$product->getAmountProduct($second));
 
         $second->deposit(-$second->balance);
-        self::assertSame($second->balanceInt, 0);
+        self::assertSame(0, (int) $second->balance);
 
         $first->withdraw($product->getAmountProduct($first));
-        self::assertSame($first->balanceInt, 0);
+        self::assertSame(0, (int) $first->balance);
 
         $product->withdraw($product->balance);
-        self::assertSame($product->balanceInt, 0);
+        self::assertSame(0, (int) $product->balance);
 
         self::assertFalse($first->safeRefundGift($product));
         self::assertTrue($first->forceRefundGift($product));
-        self::assertSame($product->balanceInt, -$product->getAmountProduct($second));
+        self::assertSame((int) $product->balance, (int) -$product->getAmountProduct($second));
 
-        self::assertSame($second->balanceInt, $product->getAmountProduct($second));
+        self::assertSame((int) $product->getAmountProduct($second), (int) $second->balance);
         $second->withdraw($second->balance);
-        self::assertSame($second->balanceInt, 0);
+        self::assertSame(0, (int) $second->balance);
     }
 }

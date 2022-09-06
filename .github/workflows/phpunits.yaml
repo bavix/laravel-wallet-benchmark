@@ -184,7 +184,7 @@ jobs:
       - name: Display major junit
         id: artifacts-display-major
         run: |
-          OUTPUT=$(~/go/bin/junit-reporter --path . --group --ticks)
+          OUTPUT=$(~/go/bin/junit-reporter --path . --group --major --ticks)
           OUTPUT="${OUTPUT//'%'/'%25'}"
           OUTPUT="${OUTPUT//$'\n'/'%0A'}"
           OUTPUT="${OUTPUT//$'\r'/'%0D'}"

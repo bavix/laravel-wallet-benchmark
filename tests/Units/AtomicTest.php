@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Bavix\WalletBench\Test\Units;
 
-use Bavix\Wallet\Services\AtomicService;
 use Bavix\Wallet\Services\AtomicServiceInterface;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
@@ -34,15 +33,16 @@ final class AtomicTest extends TestCase
 
         /** @var Buyer $buyer */
         $buyer = BuyerFactory::new()->create();
+        $buyer->deposit(256);
 
         $callback = static function () use ($buyer) {
             for ($i = 0; $i < 256; ++$i) {
-                $buyer->wallet->depositFloat(0.01);
+                $buyer->wallet->withdrawFloat(0.01);
             }
         };
 
         $atomic->block($buyer, $callback);
 
-        self::assertSame(256, (int) $buyer->balance);
+        self::assertSame(0, (int) $buyer->balance);
     }
 }

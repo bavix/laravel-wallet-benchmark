@@ -20,7 +20,7 @@ final class AtomicTest extends TestCase
      */
     public function testBlocks(): void
     {
-        if (!class_exists(AtomicService::class)) {
+        if (!interface_exists(AtomicServiceInterface::class)) {
             $this->markTestSkipped();
         }
 

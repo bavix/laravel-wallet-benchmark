@@ -172,8 +172,17 @@ jobs:
         id: artifacts-tools-install
         run: go install github.com/bavix/junit-reporter@latest
 
-      - name: Display junit
-        id: artifacts-display
+      - name: Display all junit
+        id: artifacts-display-all
+        run: |
+          OUTPUT=$(~/go/bin/junit-reporter --path . --group --ticks)
+          OUTPUT="${OUTPUT//'%'/'%25'}"
+          OUTPUT="${OUTPUT//$'\n'/'%0A'}"
+          OUTPUT="${OUTPUT//$'\r'/'%0D'}"
+          echo "::set-output name=stdout::$OUTPUT"
+
+      - name: Display major junit
+        id: artifacts-display-major
         run: |
           OUTPUT=$(~/go/bin/junit-reporter --path . --group --ticks)
           OUTPUT="${OUTPUT//'%'/'%25'}"
@@ -196,5 +205,8 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             Build output
-            ${{ steps.artifacts-display.outputs.stdout }}
+            All versions:
+            ${{ steps.artifacts-display-all.outputs.stdout }}
+            Major compare:
+            ${{ steps.artifacts-display-major.outputs.stdout }}
           edit-mode: replace

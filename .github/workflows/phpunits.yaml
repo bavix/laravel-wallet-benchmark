@@ -207,6 +207,7 @@ jobs:
             Build output
             All versions:
             ${{ steps.artifacts-display-all.outputs.stdout }}
+
             Major compare:
             ${{ steps.artifacts-display-major.outputs.stdout }}
           edit-mode: replace

@@ -79,6 +79,22 @@ final class SoloTest extends TestCase
     /**
      * @dataProvider x100
      */
+    public function testWithdraw(): void
+    {
+        /** @var Buyer $buyer */
+        $buyer = BuyerFactory::new()->create();
+        $buyer->wallet->deposit(1);
+        $transaction = $buyer->wallet->withdraw(1);
+
+        self::assertNotNull($transaction);
+        self::assertSame(-1, (int) $transaction->amount);
+        self::assertTrue($buyer->wallet->is($transaction->wallet));
+        self::assertTrue($buyer->is($transaction->payable));
+    }
+
+    /**
+     * @dataProvider x100
+     */
     public function testTransfer(): void
     {
         /**

@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        wallet-versions: [ 6.1, 6.2, 7.2, 7.3, 8.3, 8.4, "9.0", 9.1, 9.2, 9.3, 9.4, 9.5 ]
+        wallet-versions: [ "9.0", 9.1, 9.2, 9.3, 9.4, 9.5 ]
         php-versions: [ 8.1 ]
         databases: [ pgsql, mysql, mariadb ]
         caches: [ redis, memcached ]

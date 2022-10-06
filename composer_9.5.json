@@ -22,7 +22,7 @@
   ],
   "require": {
     "php": "^8.0",
-    "bavix/laravel-wallet": "dev-master"
+    "bavix/laravel-wallet": "9.5.*"
   },
   "require-dev": {
     "brianium/paratest": "^6.4",

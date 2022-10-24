@@ -179,7 +179,7 @@ jobs:
           OUTPUT="${OUTPUT//'%'/'%25'}"
           OUTPUT="${OUTPUT//$'\n'/'%0A'}"
           OUTPUT="${OUTPUT//$'\r'/'%0D'}"
-          echo "::set-output name=stdout::$OUTPUT"
+          echo "stdout=$OUTPUT" >> $GITHUB_OUTPUT
 
       - name: Display major junit
         id: artifacts-display-major
@@ -188,7 +188,7 @@ jobs:
           OUTPUT="${OUTPUT//'%'/'%25'}"
           OUTPUT="${OUTPUT//$'\n'/'%0A'}"
           OUTPUT="${OUTPUT//$'\r'/'%0D'}"
-          echo "::set-output name=stdout::$OUTPUT"
+          echo "stdout=$OUTPUT" >> $GITHUB_OUTPUT
 
       - name: Find Comment
         uses: peter-evans/find-comment@v2

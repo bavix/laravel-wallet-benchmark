@@ -176,14 +176,14 @@ jobs:
         id: artifacts-display-all
         run: |
           echo "stdout<<EOF" >> $GITHUB_OUTPUT
-          echo $(~/go/bin/junit-reporter --path . --group --ticks --median) >> $GITHUB_OUTPUT
+          echo "$(~/go/bin/junit-reporter --path . --group --ticks --median)" >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Display major junit
         id: artifacts-display-major
         run: |
           echo "stdout<<EOF" >> $GITHUB_OUTPUT
-          echo $(~/go/bin/junit-reporter --path . --group --major --ticks --median) >> $GITHUB_OUTPUT
+          echo "$(~/go/bin/junit-reporter --path . --group --major --ticks --median)" >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Find Comment

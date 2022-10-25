@@ -175,20 +175,16 @@ jobs:
       - name: Display all junit
         id: artifacts-display-all
         run: |
-          OUTPUT=$(~/go/bin/junit-reporter --path . --group --ticks --median)
-          OUTPUT="${OUTPUT//'%'/'%25'}"
-          OUTPUT="${OUTPUT//$'\n'/'%0A'}"
-          OUTPUT="${OUTPUT//$'\r'/'%0D'}"
-          echo "::set-output name=stdout::$OUTPUT"
+          echo "stdout<<EOF" >> $GITHUB_OUTPUT
+          echo "$(~/go/bin/junit-reporter --path . --group --ticks --median)" >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Display major junit
         id: artifacts-display-major
         run: |
-          OUTPUT=$(~/go/bin/junit-reporter --path . --group --major --ticks --median)
-          OUTPUT="${OUTPUT//'%'/'%25'}"
-          OUTPUT="${OUTPUT//$'\n'/'%0A'}"
-          OUTPUT="${OUTPUT//$'\r'/'%0D'}"
-          echo "::set-output name=stdout::$OUTPUT"
+          echo "stdout<<EOF" >> $GITHUB_OUTPUT
+          echo "$(~/go/bin/junit-reporter --path . --group --major --ticks --median)" >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Find Comment
         uses: peter-evans/find-comment@v2

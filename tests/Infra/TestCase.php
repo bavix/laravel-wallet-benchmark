@@ -26,19 +26,19 @@ abstract class TestCase extends OrchestraTestCase
     }
 
     // benchmark
-    public function x25(): iterable
+    public static function x25(): iterable
     {
-        yield from $this->iterate(25);
+        yield from self::iterate(25);
     }
 
-    public function x100(): iterable
+    public static function x100(): iterable
     {
-        yield from $this->iterate(100);
+        yield from self::iterate(100);
     }
 
-    public function x300(): iterable
+    public static function x300(): iterable
     {
-        yield from $this->iterate(300);
+        yield from self::iterate(300);
     }
 
     /**
@@ -82,7 +82,7 @@ abstract class TestCase extends OrchestraTestCase
         $config->set('wallet.lock.cache', $config->get('cache.driver')); // for 6.x
     }
 
-    private function iterate(int $value): iterable
+    private static function iterate(int $value): iterable
     {
         for ($i = 0; $i < $value; ++$i) {
             yield [];

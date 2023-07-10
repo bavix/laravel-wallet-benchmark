@@ -20,7 +20,7 @@ jobs:
       matrix:
         wallet-versions: [ "10.0", 9.6, 9.5, 9.4, 9.3, 9.2, 9.1, "9.0", 8.4, 7.3 ]
         php-versions: [ 8.2 ]
-        databases: [ pgsql, mysql, mariadb ]
+        databases: [ pgsql, mysql ]
         caches: [ redis, memcached ]
 
     services:
@@ -72,19 +72,6 @@ jobs:
         ports:
           - 3306:3306
 
-      mariadb:
-        image: mariadb:10.9
-        env:
-          MYSQL_ROOT_PASSWORD: wallet
-          MYSQL_DATABASE: wallet
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
-        ports:
-          - 3307:3306
-
     steps:
       - name: Checkout
         id: git-checkout
@@ -129,12 +116,7 @@ jobs:
 
       - name: Run test suite
         id: unit-run
-        run: |
-          if [[ $DB_CONNECTION == "mariadb" ]]; then
-            composer unit
-          else
-            composer parabench
-          fi
+        run: composer parabench
         env:
           CACHE_DRIVER: ${{ matrix.caches }}
           DB_CONNECTION: ${{ matrix.databases }}

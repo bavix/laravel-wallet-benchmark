@@ -140,6 +140,7 @@ jobs:
 
   artifacts:
     if: ${{ github.event.pull_request != null }}
+    permissions: write-all
     name: Display results
     needs: units
     runs-on: ubuntu-latest

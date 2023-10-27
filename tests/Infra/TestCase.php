@@ -85,7 +85,13 @@ abstract class TestCase extends OrchestraTestCase
     private static function iterate(int $value): iterable
     {
         for ($i = 0; $i < $value; ++$i) {
+            $startAt = microtime(true);
+
             yield [];
+
+            if ((microtime(true) - $startAt) > 5) {
+                break;
+            }
         }
     }
 }

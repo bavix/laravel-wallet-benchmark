@@ -93,7 +93,7 @@ abstract class TestCase extends OrchestraTestCase
 
             $current = microtime(true);
 
-            if ((($current - $tickTime) > 5) || (($current - $startAt)) > 60) {
+            if ((($current - $tickTime) > 5) || (($current - $startAt) > 60)) {
                 break;
             }
         }

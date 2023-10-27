@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         wallet-versions: [ "10.0", 9.6, 9.5, 9.4, 9.3, 9.2, 8.4, 7.3 ]
-        php-versions: [ 8.2 ]
+        php-versions: [ 8.3 ]
         databases: [ pgsql, mysql ]
         caches: [ redis, memcached ]
 
@@ -82,7 +82,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, pgsql, mysql, sqlite, redis, memcached
+          extensions: bcmath, mbstring, pgsql, mysql, sqlite, redis, memcached
           coverage: pcov
         env:
           runner: self-hosted

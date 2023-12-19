@@ -135,7 +135,7 @@ jobs:
         id: unit-upload
         uses: actions/upload-artifact@v4
         with:
-          name: junit
+          name: junit-${{ matrix.runs-on }}
           path: build/junit-${{matrix.wallet-versions}}-${{ matrix.php-versions }}-${{ matrix.caches }}-${{ matrix.databases }}.xml
 
   artifacts:
@@ -150,6 +150,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: junit
+          pattern: junit-*
+          merge-multiple: true
 
       - uses: actions/setup-go@v5
         id: artifacts-golang

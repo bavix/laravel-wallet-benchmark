@@ -149,7 +149,6 @@ jobs:
         id: artifacts-download
         uses: actions/download-artifact@v4
         with:
-          name: junit
           pattern: junit-*
           merge-multiple: true
 

@@ -66,10 +66,14 @@ abstract class TestCase extends OrchestraTestCase
         /** @var Repository $config */
         $config = $app['config'];
 
-        $mysql = $config->get('database.connections.mysql');
-        $config->set('database.connections.mariadb', array_merge($mysql, [
-            'port' => 3307,
-        ]));
+        if ($config->get('database.connections.mariadb') === null) {
+            $mysql = $config->get('database.connections.mysql');
+            $config->set('database.connections.mariadb', array_merge($mysql, [
+                'port' => 3307,
+            ]));
+        } else {
+            $config->set('database.connections.mariadb.port', 3307);
+        }
 
         $config->set('wallet.cache.ttl'); // remove ttl
 

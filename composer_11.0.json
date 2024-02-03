@@ -11,7 +11,8 @@
     "wallet",
     "payments"
   ],
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
+  "prefer-stable" : true,
   "homepage": "https://github.com/bavix/laravel-wallet-benchmark",
   "license": "MIT",
   "authors": [
@@ -21,14 +22,14 @@
     }
   ],
   "require": {
-    "php": "^8.1",
-    "bavix/laravel-wallet": "11.x-dev"
+    "php": "^8.2",
+    "bavix/laravel-wallet": "^11.0"
   },
   "require-dev": {
-    "brianium/paratest": "^7.0",
-    "nunomaduro/collision": "^7.0",
-    "orchestra/testbench": "^v8.0",
-    "phpunit/phpunit": "^10.0",
+    "brianium/paratest": "^7.4",
+    "nunomaduro/collision": "^8.0",
+    "orchestra/testbench": "^9.0",
+    "phpunit/phpunit": "^10.5",
     "rector/rector": "^0.12.5",
     "symplify/easy-coding-standard": "^10.0"
   },

@@ -43,6 +43,7 @@ final class SoloTest extends TestCase
 
         foreach ($buyers as $buyer) {
             self::assertSame(100, (int) $buyer->wallet->balance);
+            self::assertSame($buyer->getKey(), $buyer->wallet->holder->getKey());
         }
     }
 

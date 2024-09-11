@@ -123,6 +123,8 @@ final class CartTest extends TestCase
         foreach ($products as $product) {
             $productIds[] = $product->getKey();
             self::assertSame(0, (int) $product->balance);
+            self::assertTrue($product->wallet->saveQuietly());
+            self::assertTrue($product->wallet->exists);
         }
 
         /** @var Product[] $products */

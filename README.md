@@ -37,8 +37,3 @@ Let's move on to the run configuration.
 | State:InTransaction    | 1.82724428s | 766.2884ms  | 771.08604ms | 767.08376ms |
 
 The pivot table was generated with the [junit-reporter](https://github.com/bavix/junit-reporter)
-
----
-Supported by
-
-[![Supported by JetBrains](https://cdn.rawgit.com/bavix/development-through/46475b4b/jetbrains.svg)](https://www.jetbrains.com/)

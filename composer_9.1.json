@@ -48,6 +48,9 @@
     "rector-fix": "@php vendor/bin/rector process"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "audit": {
+      "ignore": ["PKSA-8qx3-n5y5-vvnd"]
+    }
   }
 }

@@ -18,32 +18,12 @@ jobs:
 
     strategy:
       matrix:
-        wallet-versions: [ 11.5, 11.4, 11.3, 11.2, 11.1, "11.0", 10.1, "10.0" ]
+        wallet-versions: [ 11.5, 11.4, 11.3, 11.2, 11.1, "11.0" ]
         php-versions: [ 8.3 ]
         databases: [ pgsql ]
         caches: [ database ]
 
     services:
-      redis:
-        image: valkey/valkey:latest
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
-        ports:
-          - 6379:6379
-
-      memcached:
-        image: memcached:latest
-        options: >-
-          --health-cmd "timeout 5 bash -c 'cat < /dev/null > /dev/udp/127.0.0.1/11211'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
-        ports:
-          - 11211:11211
-
       pgsql:
         image: postgres:latest
         env:
@@ -57,19 +37,6 @@ jobs:
           --health-retries 10
         ports:
           - 5432:5432
-
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: wallet
-          MYSQL_DATABASE: wallet
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
-        ports:
-          - 3306:3306
 
     steps:
       - name: Checkout
@@ -117,6 +84,7 @@ jobs:
         id: unit-run
         run: composer parabench
         env:
+          WALLET_LOCK_DRIVER: database
           CACHE_DRIVER: ${{ matrix.caches }}
           DB_CONNECTION: ${{ matrix.databases }}
           CACHE_PREFIX: ${{matrix.caches}}-${{ matrix.databases }}-${{ matrix.wallet-versions }}-${{ matrix.php-versions }}
@@ -125,10 +93,6 @@ jobs:
         id: unit-artifact
         run: |
           cp build/junit.xml build/junit-${{matrix.wallet-versions}}-${{ matrix.php-versions }}-${{ matrix.caches }}-${{ matrix.databases }}.xml
-        env:
-          CACHE_DRIVER: ${{ matrix.caches }}
-          DB_CONNECTION: ${{ matrix.databases }}
-          CACHE_PREFIX: ${{matrix.caches}}-${{ matrix.databases }}-${{ matrix.wallet-versions }}-${{ matrix.php-versions }}
 
       - name: Artifact upload
         id: unit-upload

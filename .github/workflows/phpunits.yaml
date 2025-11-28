@@ -59,7 +59,7 @@ jobs:
           - 5432:5432
 
       mysql:
-        image: bitnami/mysql:9.0
+        image: bitnami-legacy/mysql:9.0
         env:
           MYSQL_ROOT_PASSWORD: wallet
           MYSQL_DATABASE: wallet

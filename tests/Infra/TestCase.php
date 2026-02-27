@@ -75,15 +75,8 @@ abstract class TestCase extends OrchestraTestCase
             $config->set('database.connections.mariadb.port', 3307);
         }
 
-        $config->set('wallet.cache.ttl'); // remove ttl
-
-        $config->set('wallet.cache.enabled', true); // for 6.x
-        $config->set('wallet.cache.driver', $config->get('cache.driver'));
-        $config->set('wallet.cache.cache', $config->get('cache.driver')); // for 6.x
-
-        $config->set('wallet.lock.enabled', true); // for 6.x
-        $config->set('wallet.lock.driver', $config->get('cache.driver'));
-        $config->set('wallet.lock.cache', $config->get('cache.driver')); // for 6.x
+        $config->set('wallet.cache.driver', 'database');
+        $config->set('wallet.lock.driver', 'database');
     }
 
     private static function iterate(int $value): iterable

@@ -11,6 +11,7 @@ use Bavix\WalletBench\Test\Infra\Factories\ItemFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
 use Bavix\WalletBench\Test\Infra\Models\Item;
 use Bavix\WalletBench\Test\Infra\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -20,6 +21,7 @@ final class GiftTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testGift(): void
     {
         /**
@@ -68,6 +70,7 @@ final class GiftTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testRefund(): void
     {
         /**

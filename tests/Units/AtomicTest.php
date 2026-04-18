@@ -8,6 +8,7 @@ use Bavix\Wallet\Services\AtomicServiceInterface;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
 use Bavix\WalletBench\Test\Infra\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -17,6 +18,7 @@ final class AtomicTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testBlocks(): void
     {
         if (!interface_exists(AtomicServiceInterface::class)) {

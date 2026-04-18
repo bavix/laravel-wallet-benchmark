@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bavix\WalletBench\Test\Infra\Models;
 
+use Bavix\Wallet\External\Api\PurchaseQuery;
+use Bavix\Wallet\External\Api\PurchaseQueryHandlerInterface;
 use Bavix\Wallet\Interfaces\Customer;
 use Bavix\Wallet\Interfaces\Product;
 use Bavix\Wallet\Traits\HasWallet;
@@ -28,6 +30,10 @@ class Item extends Model implements Product
 
         if ($force) {
             return $result;
+        }
+
+        if (interface_exists(PurchaseQueryHandlerInterface::class)) {
+            return $result && !app(PurchaseQueryHandlerInterface::class)->one(PurchaseQuery::create($customer, $this));
         }
 
         return $result && !$customer->paid($this);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bavix\WalletBench\Test\Units;
 
+use Bavix\Wallet\External\Api\PurchaseQuery;
+use Bavix\Wallet\External\Api\PurchaseQueryHandlerInterface;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Factories\ItemFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
@@ -39,6 +41,24 @@ final class GiftTest extends TestCase
         $first->wallet->gift($second, $product);
         self::assertSame(0, (int) $first->balance);
         self::assertSame(0, (int) $second->balance);
+
+        if (interface_exists(PurchaseQueryHandlerInterface::class)) {
+            $results = app(PurchaseQueryHandlerInterface::class)->apply([
+                PurchaseQuery::create($first, $product, true),
+                PurchaseQuery::create($second, $product, true),
+                PurchaseQuery::create($second->wallet, $product),
+                PurchaseQuery::create($second->wallet, $product, true),
+            ]);
+
+            self::assertCount(4, $results);
+            self::assertNull($results[0]);
+            self::assertNotNull($results[1]);
+            self::assertNull($results[2]);
+            self::assertNotNull($results[3]);
+
+            return;
+        }
+
         self::assertNull($first->paid($product, true));
         self::assertNotNull($second->paid($product, true));
         self::assertNull($second->wallet->paid($product));

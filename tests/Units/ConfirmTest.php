@@ -7,6 +7,7 @@ namespace Bavix\WalletBench\Test\Units;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
 use Bavix\WalletBench\Test\Infra\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -16,6 +17,7 @@ final class ConfirmTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testConfirm(): void
     {
         /** @var Buyer $buyer */
@@ -29,6 +31,7 @@ final class ConfirmTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testUnConfirm(): void
     {
         /** @var Buyer $buyer */

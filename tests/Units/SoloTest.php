@@ -7,6 +7,7 @@ namespace Bavix\WalletBench\Test\Units;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
 use Bavix\WalletBench\Test\Infra\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -16,6 +17,7 @@ final class SoloTest extends TestCase
     /**
      * @dataProvider x300
      */
+    #[DataProvider('x300')]
     public function testGetBalance(): void
     {
         /** @var Buyer $buyer */
@@ -26,6 +28,7 @@ final class SoloTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testEagerLoading(): void
     {
         $ids = [];
@@ -50,6 +53,7 @@ final class SoloTest extends TestCase
     /**
      * @dataProvider x100
      */
+    #[DataProvider('x100')]
     public function testDeposit(): void
     {
         /** @var Buyer $buyer */
@@ -65,6 +69,7 @@ final class SoloTest extends TestCase
     /**
      * @dataProvider x100
      */
+    #[DataProvider('x100')]
     public function testForceWithdraw(): void
     {
         /** @var Buyer $buyer */
@@ -80,6 +85,7 @@ final class SoloTest extends TestCase
     /**
      * @dataProvider x100
      */
+    #[DataProvider('x100')]
     public function testWithdraw(): void
     {
         /** @var Buyer $buyer */
@@ -96,6 +102,7 @@ final class SoloTest extends TestCase
     /**
      * @dataProvider x100
      */
+    #[DataProvider('x100')]
     public function testTransfer(): void
     {
         /**

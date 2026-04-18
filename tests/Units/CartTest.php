@@ -11,6 +11,7 @@ use Bavix\WalletBench\Test\Infra\Factories\ItemFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
 use Bavix\WalletBench\Test\Infra\Models\Item;
 use Bavix\WalletBench\Test\Infra\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -20,6 +21,7 @@ final class CartTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testPay(): void
     {
         /**
@@ -48,6 +50,7 @@ final class CartTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testPayFree(): void
     {
         /**
@@ -76,6 +79,7 @@ final class CartTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testPayOneItemXPieces(): void
     {
         $quantity = 30;
@@ -107,6 +111,7 @@ final class CartTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testEagerLoaderPay(): void
     {
         /**

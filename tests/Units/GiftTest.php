@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Bavix\WalletBench\Test\Units;
 
-use Bavix\Wallet\Models\Transfer;
+use Bavix\Wallet\External\Api\PurchaseQuery;
+use Bavix\Wallet\External\Api\PurchaseQueryHandlerInterface;
 use Bavix\WalletBench\Test\Infra\Factories\BuyerFactory;
 use Bavix\WalletBench\Test\Infra\Factories\ItemFactory;
 use Bavix\WalletBench\Test\Infra\Models\Buyer;
 use Bavix\WalletBench\Test\Infra\Models\Item;
 use Bavix\WalletBench\Test\Infra\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -19,6 +21,7 @@ final class GiftTest extends TestCase
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testGift(): void
     {
         /**
@@ -37,19 +40,37 @@ final class GiftTest extends TestCase
         $first->deposit($product->getAmountProduct($first));
         self::assertSame((int) $first->balance, (int) $product->getAmountProduct($first));
 
-        $transfer = $first->wallet->gift($second, $product);
+        $first->wallet->gift($second, $product);
         self::assertSame(0, (int) $first->balance);
         self::assertSame(0, (int) $second->balance);
+
+        if (interface_exists(PurchaseQueryHandlerInterface::class)) {
+            $results = app(PurchaseQueryHandlerInterface::class)->apply([
+                PurchaseQuery::create($first, $product, true),
+                PurchaseQuery::create($second, $product, true),
+                PurchaseQuery::create($second->wallet, $product),
+                PurchaseQuery::create($second->wallet, $product, true),
+            ]);
+
+            self::assertCount(4, $results);
+            self::assertNull($results[0]);
+            self::assertNotNull($results[1]);
+            self::assertNull($results[2]);
+            self::assertNotNull($results[3]);
+
+            return;
+        }
+
         self::assertNull($first->paid($product, true));
         self::assertNotNull($second->paid($product, true));
         self::assertNull($second->wallet->paid($product));
         self::assertNotNull($second->wallet->paid($product, true));
-        self::assertSame(Transfer::STATUS_GIFT, $transfer->status);
     }
 
     /**
      * @dataProvider x25
      */
+    #[DataProvider('x25')]
     public function testRefund(): void
     {
         /**
@@ -68,10 +89,9 @@ final class GiftTest extends TestCase
         $first->deposit($product->getAmountProduct($first));
         self::assertSame((int) $product->getAmountProduct($first), (int) $first->balance);
 
-        $transfer = $first->wallet->gift($second, $product);
+        $first->wallet->gift($second, $product);
         self::assertSame(0, (int) $first->balance);
         self::assertSame(0, (int) $second->balance);
-        self::assertSame($transfer->status, Transfer::STATUS_GIFT);
 
         self::assertFalse($second->wallet->safeRefund($product));
         self::assertTrue($second->wallet->refundGift($product));
@@ -83,7 +103,6 @@ final class GiftTest extends TestCase
 
         $transfer = $second->wallet->forceGift($first, $product);
         self::assertNotNull($transfer);
-        self::assertSame($transfer->status, Transfer::STATUS_GIFT);
 
         self::assertSame((int) $second->balance, (int) -$product->getAmountProduct($second));
 

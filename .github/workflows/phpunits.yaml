@@ -103,10 +103,15 @@ jobs:
         id: composer-dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Replace old phpunit.xml
+      - name: Replace old phpunit.xml (<10)
         id: phpunit-9x-xml
         run: cp phpunit.old.xml phpunit.xml
         if: ${{ matrix.wallet-versions < 10 }}
+
+      - name: Replace old phpunit.xml (v10)
+        id: phpunit-10x-xml
+        run: cp phpunit.xml.10 phpunit.xml
+        if: ${{ matrix.wallet-versions < 12 }}
 
       - name: Prepare run test suite
         id: unit-prepare

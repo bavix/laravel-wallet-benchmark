@@ -11,6 +11,7 @@ env:
   REDIS_HOST: localhost
   REDIS_PORT: 6379
   MEMCACHED_PORT: 11211
+  COMPOSER_NO_BLOCKING: 1
 
 jobs:
   units:

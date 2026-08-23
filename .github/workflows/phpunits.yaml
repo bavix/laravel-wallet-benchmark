@@ -11,6 +11,7 @@ env:
   REDIS_HOST: localhost
   REDIS_PORT: 6379
   MEMCACHED_PORT: 11211
+  COMPOSER_NO_BLOCKING: 1
 
 jobs:
   units:
@@ -18,7 +19,7 @@ jobs:
 
     strategy:
       matrix:
-        wallet-versions: [ "12.0", 11.4, 11.3, 11.2, 11.1, "11.0", 10.1, "10.0", 9.6, 9.5, 9.4, 9.3, 9.2, 9.1, "9.0", 8.4, 7.3 ]
+        wallet-versions: [ 12.1, "12.0", 11.4, 11.3, 11.2, 11.1, "11.0", 10.1, "10.0", 9.6, 9.5, 9.4, 9.3, 9.2, 9.1, "9.0" ]
         php-versions: [ 8.4 ]
         databases: [ pgsql, mysql ]
         caches: [ redis, memcached ]
@@ -74,7 +75,7 @@ jobs:
     steps:
       - name: Checkout
         id: git-checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         id: php-install
@@ -92,7 +93,7 @@ jobs:
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -156,7 +157,7 @@ jobs:
           pattern: junit-*
           merge-multiple: true
 
-      - uses: actions/setup-go@v6
+      - uses: actions/setup-go@v7
         id: artifacts-golang
         with:
           go-version: '^1.21.0'

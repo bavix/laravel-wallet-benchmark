@@ -77,13 +77,22 @@ abstract class TestCase extends OrchestraTestCase
 
         $config->set('wallet.cache.ttl'); // remove ttl
 
+        // Laravel <= 10 skeletons use cache.driver / CACHE_DRIVER,
+        // Laravel >= 11 skeletons use cache.default / CACHE_STORE.
+        $driver = env('CACHE_DRIVER')
+            ?? $config->get('cache.driver')
+            ?? $config->get('cache.default');
+
+        $config->set('cache.driver', $driver);
+        $config->set('cache.default', $driver);
+
         $config->set('wallet.cache.enabled', true); // for 6.x
-        $config->set('wallet.cache.driver', $config->get('cache.driver'));
-        $config->set('wallet.cache.cache', $config->get('cache.driver')); // for 6.x
+        $config->set('wallet.cache.driver', $driver);
+        $config->set('wallet.cache.cache', $driver); // for 6.x
 
         $config->set('wallet.lock.enabled', true); // for 6.x
-        $config->set('wallet.lock.driver', $config->get('cache.driver'));
-        $config->set('wallet.lock.cache', $config->get('cache.driver')); // for 6.x
+        $config->set('wallet.lock.driver', $driver);
+        $config->set('wallet.lock.cache', $driver); // for 6.x
     }
 
     private static function iterate(int $value): iterable
